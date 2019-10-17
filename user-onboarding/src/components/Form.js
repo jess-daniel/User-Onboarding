@@ -53,7 +53,6 @@ const UserForm = ({errors, touched, values, status}) => {
             <ul key={user.id}> 
                 <li>Name: {user.name}</li>
                 <li>Email: {user.email}</li>
-                <li>Checked: {user.tos}</li>
             </ul>
         ))}
         </div>
@@ -74,11 +73,12 @@ const FormikUserForm = withFormik({
         email: Yup.string().email().required("email is required"),
         password: Yup.string().required("Password is required")
     }),
-    handleSubmit(values, {setStatus}) {
+    handleSubmit(values, {setStatus, resetForm}) {
         axios.post("https://reqres.in/api/users_", values)
             .then(response => {
                 console.log(response);
                 setStatus(response.data);
+                resetForm();
             })
             .catch(error => {
                 console.log(error);
